@@ -1,0 +1,34 @@
+[theme]
+base = "light"
+primaryColor = "#1F6B50"
+backgroundColor = "#F2F5F1"
+secondaryBackgroundColor = "#E4EBE5"
+textColor = "#16302A"
+font = "Atkinson Hyperlegible, sans-serif"
+headingFont = "Bricolage Grotesque, sans-serif"
+baseRadius = "small"
+
+[[theme.fontFaces]]
+family = "Atkinson Hyperlegible"
+url = "app/static/fonts/atkinson-hyperlegible-latin-400-normal.woff2"
+weight = 400
+
+[[theme.fontFaces]]
+family = "Atkinson Hyperlegible"
+url = "app/static/fonts/atkinson-hyperlegible-latin-700-normal.woff2"
+weight = 700
+
+[[theme.fontFaces]]
+family = "Bricolage Grotesque"
+url = "app/static/fonts/bricolage-grotesque-latin-wght-normal.woff2"
+weight = "200 800"
+
+[server]
+enableStaticServing = true
+headless = true
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
