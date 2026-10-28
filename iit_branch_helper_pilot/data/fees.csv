@@ -1,0 +1,7 @@
+item,value_inr,source
+tuition_per_semester,100000,"IIT Palakkad Subsidy Programme 2025-26 (rti.iitpkd.ac.in) - B.Tech tuition fee"
+tuition_per_year,200000,"Two semesters per year"
+remission_sc_st_pwd,full,"IIT Palakkad Subsidy Programme 2025-26; IIT Mandi tuition fee remission guidelines"
+remission_income_below_1_lakh,full,"IIT Mandi General guidelines for tuition fee remission (academics.iitmandi.ac.in)"
+remission_income_1_to_5_lakh,two_thirds,"IIT Mandi General guidelines for tuition fee remission (academics.iitmandi.ac.in)"
+note,,"Tuition only. Hostel, mess and one-time fees vary by IIT and are not included. Abu Dhabi campus fees are different and not in this file. Scholarships such as MCM are not included."

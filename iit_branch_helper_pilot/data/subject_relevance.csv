@@ -1,0 +1,15 @@
+branch_group,physics,chemistry,mathematics,biology,computing,drawing_design
+Computing,0.3,0.1,1.0,0.0,1.0,0.1
+Electrical and Electronics,1.0,0.1,0.9,0.0,0.6,0.1
+Aerospace,1.0,0.2,0.9,0.0,0.4,0.4
+Mechanical and Production,1.0,0.3,0.8,0.0,0.3,0.7
+Civil and Infrastructure,0.8,0.4,0.7,0.1,0.2,0.7
+Biotech and Bio-engineering,0.3,0.8,0.5,1.0,0.3,0.1
+Chemical and Process,0.6,1.0,0.8,0.2,0.3,0.2
+Materials and Metallurgy,0.8,1.0,0.6,0.1,0.2,0.2
+"Earth, Mining and Energy",0.8,0.6,0.6,0.2,0.2,0.4
+Textile,0.5,0.8,0.5,0.1,0.2,0.5
+Architecture and Design,0.3,0.1,0.4,0.0,0.3,1.0
+Pure and Applied Sciences,0.9,0.7,1.0,0.2,0.4,0.0
+Agriculture and Food,0.4,0.7,0.5,0.8,0.3,0.3
+General and Interdisciplinary,0.7,0.5,0.8,0.3,0.5,0.3
