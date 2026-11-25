@@ -22,7 +22,8 @@ Create a new Space with the Streamlit option, upload the same files, and set the
 ## Before you share the link
 
 - Open the app, press "Try an example student", and check the choice list appears.
-- Run the tests locally: `python test_v22.py` (all should print PASS).
+- Run the tests locally: `python test_v22.py` and `python test_v3.py` (all should print PASS).
+- Open the two pages under "After you join (proposed)" in the sidebar and check they load.
 - Share the link with the pilot group only, with the note that it is a pilot.
 
 ## What the app does and does not do with student data

@@ -1,4 +1,22 @@
-# IIT Branch Choice Helper (pilot release, v2.3)
+# IIT Branch Choice Helper (pilot release, v3.1)
+
+v3.1 = v3.0 plus a "Your branch" input on both new pages:
+- **Drift check**: the student picks their branch and sees what a core job means for it, what our
+  research brief found for that branch (section 2.3 only, with its source; branches without a finding
+  say so), and branch-specific help (technical team, Core+X path). The branch never changes the score.
+- **Internship matching**: each demo project is open to certain branches, and demo students only apply
+  in their own branch. "Add yourself" lets the user pick a branch, rank the projects open to it, say
+  where each company would rank them, and see their result. Demo: 6 of 8 matched in 2 rounds.
+- The branch-choice tool is unchanged.
+
+v3.0 = v2.3 plus:
+- **New look**: warm paper background, dark ink text and one teal accent (layout and colour approach
+  adapted from the "Perplexity AI" style on styles.refero.design; fonts unchanged). Option cards,
+  pill-shaped step tabs, summary cards on the results tab.
+- **Three pages** in one app (sidebar menu): Branch choice (built and validated), Drift check
+  (proposed design) and Internship matching (proposed design, made-up demo data).
+- No change to how options are found, scored or labelled: the example student still gets the same
+  255 programs, and every v2.2 test still passes.
 
 v2.3 = v2.2 plus three pre-deployment changes: starting weights are labelled "not a
 recommendation" and students are prompted to set their own; a pilot notice says this is not an
@@ -23,7 +41,10 @@ load a sample student.
 
 | File | What it does |
 |---|---|
-| `app.py` | Streamlit interface: sidebar for rank, four step tabs, results |
+| `app.py` | Entry point: page set-up, shared styles and the sidebar menu of pages |
+| `branch_choice.py` | Branch choice page: sidebar for rank, four step tabs, results |
+| `drift_page.py`, `drift.py` | Drift check page and its scoring (proposed design) |
+| `matching_page.py`, `matching.py` | Internship matching page and the matching algorithm (proposed design) |
 | `ui.py` | Page styles, the option list and the rank strip |
 | `loader.py` | Reads JoSAA closing ranks, drops blank rows, parses "P" ranks, splits program names |
 | `feasibility.py` | Seat pools a student can compete in, and the chance of getting each program |
@@ -31,6 +52,7 @@ load a sample student.
 | `musthaves.py` | Step A: the student's own dealbreakers; removed options keep a plain-language reason |
 | `stability.py` | Step B: 500 seeded re-runs with weights changed by up to 20%; Stable / Depends / Fragile labels |
 | `test_v22.py` | Tests for must-haves and stability (run `python test_v22.py`) |
+| `test_v3.py` | Tests for matching and the drift check (run `python test_v3.py`) |
 | `backtest.py` | Measures how closing ranks move year to year; writes `data/chance_calibration.csv` |
 | `validate_chance.py` | Out-of-sample check: calibrate on 2024-25, test on 2026 |
 | `data/josaa_iit_final_round_2021_2025.csv` | JoSAA final-round ranks, all IITs, 2021-2025 (josaa.nic.in archive) |
@@ -152,6 +174,43 @@ Stability (v2.2), same student, default weights: Madras CSE, Bombay CSE and Delh
 "How sought-after" set to "Some") does. 10th place (IIT Kharagpur CSE) is "Depends on your
 weights" (350 of 500 runs).
 
+## Drift check (proposed design, `drift.py`)
+
+For students in years 1-2 of a core branch. Six self-reported answers each become a risk from 0
+(no sign of drift) to 1 (strong sign). Score = sum of (weight x risk) / sum of weights, x 100.
+Low below 35, Medium 35-60, High 60 or more.
+
+| Sign | Weight (team assumption) | Risk |
+|---|---|---|
+| Career plan | 30% | own field 0, not sure 0.5, leaning non-core 1 |
+| Interest in core courses (1-5) | 20% | (5 - answer) / 4 |
+| Core-course grades | 15% | improving 0, steady 0.25, falling 1 |
+| Core project or internship | 15% | yes 0, no 1 |
+| Technical team or club | 10% | yes 0, no 1 |
+| Knows someone working in core | 10% | yes 0, no 1 |
+
+Every sign with risk 0.5 or more brings one suggestion (mentor, studio project, technical team and
+so on), biggest first. Fairness rules: a student who has decided on non-core and is happy with it
+gets no alert; only the student's own answers are used (no grades from college systems, no
+category, gender, income or home state); nothing is saved. Weights and risk values are team
+assumptions until the survey (H2, H4, H6) and a pilot test them.
+
+## Internship matching (proposed design, `matching.py`)
+
+Students rank core projects; each project ranks students and has a number of places. Pairing uses
+student-proposing deferred acceptance (Gale-Shapley with capacities), the same idea as JoSAA seat
+allocation. The result is stable: no student and project would both rather be together.
+`find_blocking_pairs()` checks this on every run. The page uses made-up students and companies.
+
+Tests (`test_v3.py`): the demo is stable and respects places; a hand-worked case; unlisted students
+are never placed; 0 places takes nobody; 400 random small cases checked against every possible
+matching (always stable, and every student gets their best stable option); the stability check
+catches a bad matching. Drift: 0 and 100 at the extremes; informed choice gives no alert; parts add
+up to the score; a hand-worked example scores 53.75 (Medium). Branch input (v3.1): the branch never
+changes the score (100 answer sets x 10 branches); every research claim names section 2.3; help is
+branch-specific; demo students and projects respect branches; top/middle/bottom placement works;
+adding yourself keeps the matching stable and leaves the demo data unchanged.
+
 ## Known limitations
 
 - NIRF salaries are institute-wide, not by branch, so they cannot show core vs non-core pay.
@@ -164,3 +223,5 @@ weights" (350 of 500 runs).
 - Preparatory-list closing ranks are left out of chance estimates.
 - Stability uses +-20% uniform changes to every weight at once: a team assumption, not measured.
   The label is about staying in the top 10, not about the exact order within it.
+- Drift check and internship matching are proposed designs: drift weights are team assumptions, and
+  matching runs on made-up data until core companies take part through the placement cell.
